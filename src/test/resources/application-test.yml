@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: courier-tracking-test
+
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+  data:
+    redis:
+      host: ${SPRING_DATA_REDIS_HOST:redis}
+      port: ${SPRING_DATA_REDIS_PORT:6379}
+
+logging:
+  level:
+    com.migros.couriertracking: INFO
+    org.springframework: WARN
+    org.hibernate: WARN
