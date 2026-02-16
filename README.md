@@ -14,28 +14,39 @@
 </h2>
 
 <p>
-This project is a <b>RESTful Web Application</b> developed as a technical case study. 
-The primary objective is to process streaming geolocation data from couriers and manage their interactions with predefined store locations.
+  This project is a <b>RESTful Web Application</b> developed as a technical case study.
+  The primary objective is to process streaming geolocation data from couriers and
+  manage their interactions with predefined store locations.
 </p>
 
 <p>
-The application is built following the <b>Hexagonal Architecture (Ports and Adapters)</b> pattern to ensure a highly decoupled, maintainable, and testable codebase.
+  The application is built following the <b>Hexagonal Architecture (Ports and Adapters)</b>
+  pattern to ensure a highly decoupled, maintainable, and testable codebase.
 </p>
 
 <h3>🎯 Core Functionalities</h3>
 
 <ul>
   <li>
-    <b>📍 Real-Time Geofencing:</b> Automatically detects when a courier enters a 100-meter radius of any Migros store (loaded from <code>stores.json</code>).
+    <b>📍 Real-Time Geofencing:</b>
+    Automatically detects when a courier enters a 100-meter radius of any Migros store
+    (loaded from <code>stores.json</code>).
   </li>
   <li>
-    <b>🛡️ Smart Entry Logging:</b> Implements a 1-minute timeout rule for re-entries. Multiple entries by the same courier into the same store's circumference within 60 seconds are filtered to maintain data integrity.
+    <b>🛡️ Smart Entry Logging:</b>
+    Implements a 1-minute timeout rule for re-entries. Multiple entries by the same
+    courier into the same store's circumference within 60 seconds are filtered to
+    maintain data integrity.
   </li>
   <li>
-    <b>📏 Distance Tracking:</b> Tracks and persists the total travel distance for each courier based on their sequential geolocation updates.
+    <b>📏 Distance Tracking:</b>
+    Tracks and persists the total travel distance for each courier based on their
+    sequential geolocation updates.
   </li>
   <li>
-    <b>🔍 Data Querying:</b> Provides an API endpoint to retrieve the total distance traveled by a specific courier (<code>getTotalTravelDistance</code>).
+    <b>🔍 Data Querying:</b>
+    Provides an API endpoint to retrieve the total distance traveled by a specific
+    courier (<code>getTotalTravelDistance</code>).
   </li>
 </ul>
 
@@ -64,18 +75,30 @@ The application is built following the <b>Hexagonal Architecture (Ports and Adap
 
 <h3>📋 Prerequisites</h3>
 
-<p>To run this application, you need the following tools installed on your system:</p>
+<p>
+  To run this application, you need the following tools installed on your system:
+</p>
 
 <ul>
-  <li><b>Docker & Docker Compose:</b> Required to containerize the application and run the Redis instance.</li>
-  <li><b>Postman (Optional):</b> Recommended for testing the API endpoints.</li>
-  <li><b>Java 21 & Maven 3.9+ (Optional):</b> Only required if you wish to build or run the project outside of Docker.</li>
+  <li>
+    <b>Docker & Docker Compose:</b>
+    Required to containerize the application and run the Redis instance.
+  </li>
+  <li>
+    <b>Postman (Optional):</b>
+    Recommended for testing the API endpoints.
+  </li>
+  <li>
+    <b>Java 21 & Maven 3.9+ (Optional):</b>
+    Only required if you wish to build or run the project outside of Docker.
+  </li>
 </ul>
 
 <h3>🐳 Running with Docker</h3>
 
 <p>
-The easiest way to start the system is using Docker Compose. This will spin up the Java application and the Redis cache automatically.
+  The easiest way to start the system is using Docker Compose.
+  This will spin up the Java application and the Redis cache automatically.
 </p>
 
 <ol>
@@ -83,8 +106,7 @@ The easiest way to start the system is using Docker Compose. This will spin up t
   <li>Run the following command:</li>
 </ol>
 
-<pre><code>docker-compose up --build
-</code></pre>
+<pre><code>docker-compose up --build</code></pre>
 
 <hr>
 
@@ -93,7 +115,8 @@ The easiest way to start the system is using Docker Compose. This will spin up t
 </h2>
 
 <p>
-You can start the application without using the terminal by simply double-clicking the appropriate start script for your operating system.
+  You can start the application without using the terminal by simply
+  double-clicking the appropriate start script for your operating system.
 </p>
 
 <h3>🍎 macOS</h3>
@@ -111,8 +134,10 @@ You can start the application without using the terminal by simply double-clicki
 </ol>
 
 <p>
-This will automatically build and start the application along with Redis using Docker Compose.
+  This will automatically build and start the application along with Redis
+  using Docker Compose.
 </p>
+
 <hr>
 
 <h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">
@@ -120,7 +145,8 @@ This will automatically build and start the application along with Redis using D
 </h2>
 
 <p>
-Follow the steps below to test the system end-to-end using the provided Postman Collection.
+  Follow the steps below to test the system end-to-end using the provided
+  Postman Collection.
 </p>
 
 <h3>1️⃣ Import the Postman Collection</h3>
@@ -148,8 +174,9 @@ Follow the steps below to test the system end-to-end using the provided Postman 
 </ol>
 
 <p>
-By default, the request body is configured with the coordinates of the <b>Ataşehir Migros Store</b>.  
-This should trigger a store entry event if the courier is within the 100-meter radius.
+  By default, the request body is configured with the coordinates of the
+  <b>Ataşehir Migros Store</b>. This should trigger a store entry event if the
+  courier is within the 100-meter radius.
 </p>
 
 <h3>4️⃣ Test Distance Calculation</h3>
@@ -161,7 +188,8 @@ This should trigger a store entry event if the courier is within the 100-meter r
 </ol>
 
 <p>
-Now call the <b>Get Total Travel Distance</b> endpoint to verify that the total traveled distance has increased based on the new location update.
+  Now call the <b>Get Total Travel Distance</b> endpoint to verify that the
+  total traveled distance has increased based on the new location update.
 </p>
 
 <h3>5️⃣ Verify the 1-Minute Re-Entry Rule</h3>
@@ -173,13 +201,12 @@ Now call the <b>Get Total Travel Distance</b> endpoint to verify that the total 
 </ol>
 
 <p>
-The system should <b>NOT</b> log a new store entry because of the 1-minute re-entry restriction rule.  
-This validates that duplicate entries within 60 seconds are properly filtered.
+  The system should <b>NOT</b> log a new store entry because of the
+  1-minute re-entry restriction rule. This validates that duplicate entries
+  within 60 seconds are properly filtered.
 </p>
 
-<p>
-✅ At this point, you will have verified:
-</p>
+<p>✅ At this point, you will have verified:</p>
 
 <ul>
   <li>Courier creation</li>
@@ -187,6 +214,7 @@ This validates that duplicate entries within 60 seconds are properly filtered.
   <li>Distance calculation</li>
   <li>Re-entry timeout rule (data integrity protection)</li>
 </ul>
+
 <hr>
 
 <h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">
@@ -194,7 +222,7 @@ This validates that duplicate entries within 60 seconds are properly filtered.
 </h2>
 
 <p>
-The application provides interactive API documentation using <b>Swagger UI</b>.
+  The application provides interactive API documentation using <b>Swagger UI</b>.
 </p>
 
 <h3>🔗 Accessing Swagger</h3>
@@ -205,12 +233,9 @@ The application provides interactive API documentation using <b>Swagger UI</b>.
   <li>Navigate to:</li>
 </ol>
 
-<pre><code>http://localhost:8080/swagger-ui/index.html
-</code></pre>
+<pre><code>http://localhost:8080/swagger-ui/index.html</code></pre>
 
-<p>
-You will see the interactive Swagger interface where you can:
-</p>
+<p>You will see the interactive Swagger interface where you can:</p>
 
 <ul>
   <li>View all available REST endpoints</li>
@@ -219,67 +244,98 @@ You will see the interactive Swagger interface where you can:
   <li>Validate request payload structures</li>
 </ul>
 
-<h3>🧪 Testing via Swagger</h3>
+<hr>
 
+<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">
+  💎 Design Patterns Used
+</h2>
+
+<h3>🎯 Strategy Pattern</h3>
+
+<p><b>Used for:</b> Distance calculation logic.</p>
 <p>
-Instead of Postman, you can also:
+  Since calculating distances between coordinates can be done via various
+  mathematical formulas (Haversine, Vicenty, etc.), the logic is encapsulated
+  within a strategy interface.
+</p>
+<p>
+  <b>Result:</b> The system can switch or add new calculation models at runtime
+  without modifying the core domain service.
 </p>
 
-<ol>
-  <li>Expand an endpoint (e.g., <b>Create Courier</b>).</li>
-  <li>Click <b>Try it out</b>.</li>
-  <li>Provide the required request body.</li>
-  <li>Click <b>Execute</b>.</li>
-</ol>
+<h3>🔔 Observer Pattern</h3>
+
+<p><b>Used for:</b> Store Entry Event mechanism.</p>
+<p>
+  When a courier enters a 100m radius of a store, several decoupled actions may
+  need to occur (logging to DB, updating cache, sending notifications).
+</p>
+<p>
+  <b>Result:</b> By using Spring Application Events, the detection logic is
+  separated from the action logic. The system publishes an event, and multiple
+  listeners (Observers) can handle it independently.
+</p>
+
+<hr>
+
+<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">
+  ⚡ Cache & Eviction Strategy
+</h2>
 
 <p>
-This makes it easy to test the system without any external tools.
+  The application uses <b>Redis</b> as a distributed cache to strictly enforce
+  the "one entry per minute" rule with maximum performance.
 </p>
-<hr>
 
-<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">💎 Design Patterns Used</h2>
-
-The project incorporates specific design patterns to solve complex business requirements while maintaining a clean and extensible codebase.
-
-### 🎯 Strategy Pattern
-Used for the **Distance Calculation** logic.
-* **Why?** Since calculating distances between coordinates can be done via various mathematical formulas (Haversine, Vicenty, etc.), the logic is encapsulated within a strategy interface.
-* **Result:** This allows the system to switch or add new calculation models at runtime without modifying the core domain service.
-
-### 🔔 Observer Pattern
-Used for the **Store Entry Event** mechanism.
-* **Why?** When a courier enters a 100m radius of a store, several decoupled actions may need to occur (logging to DB, updating cache, sending notifications).
-* **Result:** By using Spring Application Events, the "Detection" logic is separated from the "Action" logic. The system publishes an event, and multiple listeners (Observers) can handle it independently.
-
-<hr>
-
-<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">⚡ Cache & Eviction Strategy</h2>
-
-The application uses **Redis** as a distributed cache to strictly enforce the "one entry per minute" rule with maximum performance.
-
-* **Logic:** When a courier enters the 100-meter radius of a store, the system generates a unique cache key: `courier:{courierId}:store:{storeId}`.
-* **1-Minute TTL Rule:** If this key does not exist in Redis, the entry is logged to the database, and the key is saved to Redis with a **60-second Time-To-Live (TTL)**.
-* **Cache Eviction:** * If the courier stays within or re-enters the same store's radius within 60 seconds, the system finds the existing key and ignores the entry request.
-    * Once the 60-second period expires, Redis automatically evicts (deletes) the key.
-    * The next location update after eviction will be treated as a new "valid" entrance and logged accordingly.
-* **Performance:** This strategy prevents redundant database I/O operations and ensures that the 100-meter radius check remains lightning-fast even under high traffic.
-
-<hr>
-<hr>
-
-<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">🧪 Unit Tests</h2>
-
-The project maintains a high standard of code quality through a comprehensive testing suite, focusing primarily on the **Domain** and **Application** layers.
-
-* **Testing Approach:**
-    * **Domain Logic:** All mathematical calculations (Haversine formula) and core business rules (100m radius check) are covered with 100% precision.
-    * **Isolation:** We use **Mockito** to mock external dependencies (Redis, JPA Repositories), ensuring that unit tests are fast and focused solely on the business logic.
-    
-* **How to Run Tests:**
-    You can run the entire test suite using the following Maven command:
-    ```bash
-    ./mvnw test
-    ```
+<ul>
+  <li>
+    <b>Logic:</b> When a courier enters the 100-meter radius of a store,
+    the system generates a unique cache key:
+    <code>courier:{courierId}:store:{storeId}</code>.
+  </li>
+  <li>
+    <b>1-Minute TTL Rule:</b> If this key does not exist in Redis, the entry
+    is logged to the database, and the key is saved with a
+    <b>60-second Time-To-Live (TTL)</b>.
+  </li>
+  <li>
+    <b>Cache Eviction:</b>
+    <ul>
+      <li>If the courier re-enters within 60 seconds, the request is ignored.</li>
+      <li>After 60 seconds, Redis automatically deletes the key.</li>
+      <li>The next update is treated as a new valid entrance.</li>
+    </ul>
+  </li>
+  <li>
+    <b>Performance:</b> Prevents redundant database I/O and keeps the
+    100-meter radius check fast under high traffic.
+  </li>
+</ul>
 
 <hr>
 
+<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">
+  🧪 Unit Tests
+</h2>
+
+<p>
+  The project maintains a high standard of code quality through a comprehensive
+  testing suite focusing primarily on the <b>Domain</b> and <b>Application</b> layers.
+</p>
+
+<ul>
+  <li>
+    <b>Domain Logic:</b> Mathematical calculations (Haversine) and core business
+    rules (100m radius check) are fully covered.
+  </li>
+  <li>
+    <b>Isolation:</b> Mockito is used to mock external dependencies (Redis, JPA),
+    ensuring fast and focused unit tests.
+  </li>
+</ul>
+
+<p><b>How to Run Tests:</b></p>
+
+<pre><code>./mvnw test</code></pre>
+
+<hr>
