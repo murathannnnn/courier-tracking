@@ -235,4 +235,51 @@ Instead of Postman, you can also:
 <p>
 This makes it easy to test the system without any external tools.
 </p>
+<hr>
+
+<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">💎 Design Patterns Used</h2>
+
+The project incorporates specific design patterns to solve complex business requirements while maintaining a clean and extensible codebase.
+
+### 🎯 Strategy Pattern
+Used for the **Distance Calculation** logic.
+* **Why?** Since calculating distances between coordinates can be done via various mathematical formulas (Haversine, Vicenty, etc.), the logic is encapsulated within a strategy interface.
+* **Result:** This allows the system to switch or add new calculation models at runtime without modifying the core domain service.
+
+### 🔔 Observer Pattern
+Used for the **Store Entry Event** mechanism.
+* **Why?** When a courier enters a 100m radius of a store, several decoupled actions may need to occur (logging to DB, updating cache, sending notifications).
+* **Result:** By using Spring Application Events, the "Detection" logic is separated from the "Action" logic. The system publishes an event, and multiple listeners (Observers) can handle it independently.
+
+<hr>
+
+<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">⚡ Cache & Eviction Strategy</h2>
+
+The application uses **Redis** as a distributed cache to strictly enforce the "one entry per minute" rule with maximum performance.
+
+* **Logic:** When a courier enters the 100-meter radius of a store, the system generates a unique cache key: `courier:{courierId}:store:{storeId}`.
+* **1-Minute TTL Rule:** If this key does not exist in Redis, the entry is logged to the database, and the key is saved to Redis with a **60-second Time-To-Live (TTL)**.
+* **Cache Eviction:** * If the courier stays within or re-enters the same store's radius within 60 seconds, the system finds the existing key and ignores the entry request.
+    * Once the 60-second period expires, Redis automatically evicts (deletes) the key.
+    * The next location update after eviction will be treated as a new "valid" entrance and logged accordingly.
+* **Performance:** This strategy prevents redundant database I/O operations and ensures that the 100-meter radius check remains lightning-fast even under high traffic.
+
+<hr>
+<hr>
+
+<h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">🧪 Unit Tests</h2>
+
+The project maintains a high standard of code quality through a comprehensive testing suite, focusing primarily on the **Domain** and **Application** layers.
+
+* **Testing Approach:**
+    * **Domain Logic:** All mathematical calculations (Haversine formula) and core business rules (100m radius check) are covered with 100% precision.
+    * **Isolation:** We use **Mockito** to mock external dependencies (Redis, JPA Repositories), ensuring that unit tests are fast and focused solely on the business logic.
+    
+* **How to Run Tests:**
+    You can run the entire test suite using the following Maven command:
+    ```bash
+    ./mvnw test
+    ```
+
+<hr>
 
