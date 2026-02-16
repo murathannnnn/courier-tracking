@@ -1,0 +1,506 @@
+{
+  "info": {
+    "_postman_id": "a3b31a82-d5fd-4b96-a3b9-5b284797efd8",
+    "name": "Courier Tracking API",
+    "description": "API tests for courier location tracking and statistics",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52432871",
+    "_collection_link": "https://go.postman.co/collection/52432871-a3b31a82-d5fd-4b96-a3b9-5b284797efd8?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Create Courier",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\":\"TEST COURIER\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Get Store Entries",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response contains store entries\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.success).to.eql(true);",
+              "    pm.expect(jsonData.data).to.be.an('array');",
+              "});",
+              "",
+              "pm.test(\"Store entries have required fields\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    if (jsonData.data.length > 0) {",
+              "        var entry = jsonData.data[0];",
+              "        pm.expect(entry).to.have.property('storeName');",
+              "        pm.expect(entry).to.have.property('entryTime');",
+              "    }",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/{{courierId}}/store-entries",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "{{courierId}}",
+            "store-entries"
+          ]
+        },
+        "description": "Get all store entries for a courier"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Total Distance",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response contains courier data\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.success).to.eql(true);",
+              "    pm.expect(jsonData.data).to.have.property('courierId');",
+              "    pm.expect(jsonData.data).to.have.property('totalDistance');",
+              "    pm.expect(jsonData.data.totalDistance).to.be.a('number');",
+              "});",
+              "",
+              "pm.test(\"Total distance is positive\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.data.totalDistance).to.be.above(0);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/{{courierId}}/total-distance",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "{{courierId}}",
+            "total-distance"
+          ]
+        },
+        "description": "Get the total travel distance for a courier"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Courier Location",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test(\"Response has success message\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.success).to.eql(true);",
+              "    pm.expect(jsonData.message).to.eql(\"Location tracked successfully\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 40.9923307,\n  \"longitude\": 29.1244229,\n  \"timestamp\": \"2026-02-16T11:00:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Track a courier's location update"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Location - Ataşehir Store",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 40.9923307,\n  \"longitude\": 29.12442299,\n  \"timestamp\": \"2026-02-16T10:00:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Near Ataşehir MMM Migros store"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Location - Novada Store",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 40.986106,\n  \"longitude\": 29.1161293,\n  \"timestamp\": \"2026-02-16T10:15:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Near Novada MMM Migros store"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Location - Beylikdüzü Store",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 41.0066851,\n  \"longitude\": 28.6552262,\n  \"timestamp\": \"2026-02-16T10:30:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Near Beylikdüzü 5M Migros store"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Location - Ortaköy Store",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 201\", function () {",
+              "    pm.response.to.have.status(201);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 41.055783,\n  \"longitude\": 29.0210292,\n  \"timestamp\": \"2026-02-16T10:45:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Near Ortaköy MMM Migros store"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Location - Invalid (Missing Fields)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});",
+              "",
+              "pm.test(\"Response indicates validation error\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.success).to.eql(false);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}}\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Test validation - missing required fields"
+      },
+      "response": []
+    },
+    {
+      "name": "Track Location - Invalid Coordinates",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 400\", function () {",
+              "    pm.response.to.have.status(400);",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 91.0,\n  \"longitude\": 200.0,\n  \"timestamp\": \"2026-02-16T11:00:00Z\"\n}"
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/locations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "locations"
+          ]
+        },
+        "description": "Test validation - invalid latitude/longitude ranges"
+      },
+      "response": []
+    },
+    {
+      "name": "Get Total Distance - Non-existent Courier",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"Status code is 200 or 404\", function () {",
+              "    pm.expect(pm.response.code).to.be.oneOf([200, 404]);",
+              "});",
+              "",
+              "if (pm.response.code === 200) {",
+              "    pm.test(\"Distance should be 0 for new courier\", function () {",
+              "        var jsonData = pm.response.json();",
+              "        pm.expect(jsonData.data.totalDistance).to.eql(0);",
+              "    });",
+              "}"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/couriers/99999/total-distance",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "couriers",
+            "99999",
+            "total-distance"
+          ]
+        },
+        "description": "Test with non-existent courier ID"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "courierId",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}
