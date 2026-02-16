@@ -151,7 +151,9 @@
               "    pm.expect(jsonData.message).to.eql(\"Location tracked successfully\");",
               "});"
             ],
-            "type": "text/javascript"
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {}
           }
         }
       ],
@@ -165,7 +167,7 @@
         ],
         "body": {
           "mode": "raw",
-          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 40.9923307,\n  \"longitude\": 29.1244229,\n  \"timestamp\": \"2026-02-16T11:00:00Z\"\n}"
+          "raw": "{\n  \"courierId\": {{courierId}},\n  \"latitude\": 40.9923307,\n  \"longitude\": 29.12442299,\n  \"timestamp\": \"2026-02-16T11:00:00Z\"\n}"
         },
         "url": {
           "raw": "{{baseUrl}}/api/v1/couriers/locations",
