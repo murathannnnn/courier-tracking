@@ -217,6 +217,8 @@
 
 <hr>
 
+<h3>⚠️ Important Notice for Postman Tests</h3> <p> During manual API testing with Postman, please ensure that you do <b>NOT</b> send multiple requests using: </p> <ul> <li>The <b>same courierId</b></li> <li>The <b>same latitude & longitude</b></li> <li>The <b>exact same timestamp</b></li> </ul> <p> A courier can physically exist <b>only once at a specific location and time</b>. Therefore, sending identical requests represents a <b>duplicate event</b>. </p> <p> If such a request is submitted, the system will: </p> <ul> <li>Detect it as a <b>duplicate record</b></li> <li>Prevent redundant processing</li> <li>Write a corresponding warning entry into the application logs</li> </ul> <p> This validation ensures <b>data integrity</b> and prevents inconsistent geolocation history for couriers. </p> <p> ✅ When testing, always modify either the timestamp or the location coordinates for each new request. </p>
+
 <h2 style="border-bottom: 2px solid #eaecef; padding-bottom: 8px;">
   📘 API Documentation (Swagger UI)
 </h2>
