@@ -1,7 +1,8 @@
 package com.migros.courier_tracking.adapter.event.publisher;
 
+import com.migros.courier_tracking.application.port.out.LocationEventPublisher;
+import com.migros.courier_tracking.domain.event.LocationUpdatedEvent;
 import com.migros.courier_tracking.domain.model.Location;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class LocationEventPublisher {
+public class SpringLocationEventPublisher implements LocationEventPublisher {
 
     private final ApplicationEventPublisher eventPublisher;
 
@@ -19,15 +20,5 @@ public class LocationEventPublisher {
         eventPublisher.publishEvent(new LocationUpdatedEvent(this, location));
     }
 
-    @Getter
-    public static class LocationUpdatedEvent {
-        private final Object source;
-        private final Location location;
 
-        public LocationUpdatedEvent(Object source, Location location) {
-            this.source = source;
-            this.location = location;
-        }
-
-    }
 }

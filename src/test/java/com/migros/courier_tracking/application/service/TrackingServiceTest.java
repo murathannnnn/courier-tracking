@@ -1,6 +1,6 @@
 package com.migros.courier_tracking.application.service;
 
-import com.migros.courier_tracking.adapter.event.publisher.LocationEventPublisher;
+import com.migros.courier_tracking.adapter.event.publisher.SpringLocationEventPublisher;
 import com.migros.courier_tracking.application.port.out.CourierRepository;
 import com.migros.courier_tracking.application.port.out.LocationRepository;
 import com.migros.courier_tracking.domain.exception.CourierNotFoundException;
@@ -39,7 +39,7 @@ class TrackingServiceTest {
     private DistanceCalculator distanceCalculator;
 
     @Mock
-    private LocationEventPublisher eventPublisher;
+    private SpringLocationEventPublisher eventPublisher;
 
     @Captor
     private ArgumentCaptor<Courier> courierCaptor;
